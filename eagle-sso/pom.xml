@@ -11,14 +11,38 @@
 	<groupId>com.lucy.eagle</groupId>
 	<artifactId>eagle-sso</artifactId>
 	<name>eagle-sso</name>
+	
 	<properties>
 		<xxl.sso.core.version>1.1.0</xxl.sso.core.version>
 	</properties>
-	<dependencies>
+	
+	<dependencies>	
+		<!-- freemarker -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.xuxueli</groupId>
 			<artifactId>xxl-sso-core</artifactId>
 			<version>${xxl.sso.core.version}</version>
 		</dependency>
+		<dependency>  
+          <groupId>com.sun</groupId>  
+          <artifactId>tools</artifactId>  
+          <version>1.8.0</version>  
+          <scope>system</scope>         
+          <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>  
+     	</dependency>
 	</dependencies>
+	
+	<build>
+		<finalName>eagle-sso-server</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>

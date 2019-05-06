@@ -190,6 +190,18 @@
             <artifactId>shiro-spring</artifactId>
             <version>${shiro.spring.version}</version>
         </dependency>
+        <!--shiro-redis-->
+        <dependency>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>${shiro.redis.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>shiro-core</artifactId>
+                    <groupId>org.apache.shiro</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
     
     <!-- 阿里云maven仓库 -->
