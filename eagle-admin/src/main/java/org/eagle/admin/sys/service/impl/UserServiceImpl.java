@@ -1,11 +1,11 @@
-package org.eagel.admin.sys.service.impl;
+package org.eagle.admin.sys.service.impl;
 
 import java.util.List;
 
-import org.eagel.admin.sys.dao.UserMapper;
-import org.eagel.admin.sys.entity.SysUser;
-import org.eagel.admin.sys.service.UserService;
-import org.eagel.admin.sys.vo.UserReqVo;
+import org.eagle.admin.sys.dao.UserMapper;
+import org.eagle.admin.sys.entity.SysUser;
+import org.eagle.admin.sys.service.UserService;
+import org.eagle.admin.sys.vo.UserReqVo;
 import org.eagle.core.mybatis.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,62 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /eagle-admin
+  tomcat:
+      uri-encoding: utf-8
+  # HTTP请求和响应头的最大量，以字节为单位，默认值为4096字节,超过此长度的部分不予处理,一般8K。解决java.io.EOFException: null问题
+  max-http-header-size: 8192
+  use-forward-headers: true
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  thymeleaf:
+    # 配置thymeleaf修改页面不重启生效
+    cache: false
+    encoding: utf-8
+    mode: LEGACYHTML5
+  datasource:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.1.105:3306/eagle?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: root
+      password: root123
+      type: com.alibaba.druid.pool.DruidDataSource
+      initial-size: 1
+      minIdle: 3
+      maxActive: 20
+      maxWait: 60000
+      filters: stat,wall,slf4j
+  # Redis
+ 
+  profiles:
+    active: dev
+  application:
+      name: eagle-admin
+  #增加加密的key配置：响应数据需要加密的话，就在Controller的方法上加@Encrypt注解即可。需要解密的操作我们加上@Decrypt注解即可。
+  encrypt:
+      #加密key，必须是16位
+      key: abcdef0123456789
+      #是否开启调试模式,默认为false,如果为true则不启用加解密操作
+      debug: true
+mybatis:
+    type-aliases-package: org.eagle.admin.sys.entity
+    mapper-locations: classpath:/mapper/sys/*.xml
+mapper:
+    mappers:
+        - org.eagle.core.mybatis.mapper.BaseMapper
+    not-empty: false
+    identity: MYSQL
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql
+logging:
+    file: ./logs/log.log
+    level:
+      com.hope: DEBUG
+      tk.mybatis: DEBUG
+      org.springframework: WARN
+
+#swagger入口： http://localhost:8081/eagle-admin/swagger-ui.html#/

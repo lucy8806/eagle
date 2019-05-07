@@ -1,6 +1,6 @@
-package org.eagel.admin.sys.vo;
+package org.eagle.admin.sys.vo;
 
-import org.eagel.admin.sys.entity.SysUser;
+import org.eagle.admin.sys.entity.SysUser;
 import org.eagle.core.model.PageInfoVo;
 
 import lombok.Data;

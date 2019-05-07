@@ -9,8 +9,8 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>com.lucy.eagle</groupId>
-	<artifactId>eagel-admin</artifactId>
-	<name>eagel-admin</name>
+	<artifactId>eagle-admin</artifactId>
+	<name>eagle-admin</name>
 
 	<dependencies>
 		<dependency>

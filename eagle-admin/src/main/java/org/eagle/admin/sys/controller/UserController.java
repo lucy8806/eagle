@@ -1,9 +1,9 @@
-package org.eagel.admin.sys.controller;
+package org.eagle.admin.sys.controller;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.eagel.admin.sys.entity.SysUser;
-import org.eagel.admin.sys.service.UserService;
-import org.eagel.admin.sys.vo.UserReqVo;
+import org.eagle.admin.sys.entity.SysUser;
+import org.eagle.admin.sys.service.UserService;
+import org.eagle.admin.sys.vo.UserReqVo;
 import org.eagle.core.model.PageResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
