@@ -30,4 +30,14 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 		PageInfo<SysUser> list = new PageInfo<>(sysUsers);
 		return list;
 	}
+
+	@Override
+	public List<SysUser> listUsersByRoleId(Integer roleId) {
+		return userMapper.listUsersByRoleId(roleId);
+	}
+
+	@Override
+	public SysUser selectUserByName(String userName) {
+		return userMapper.selectUserByName(userName);
+	}
 }
