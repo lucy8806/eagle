@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 /**
  * @Description:分页查询结果
  * 
- * @author Administrator
+ * @author lucy
  * @date:2019年5月3日 上午11:04:17
  *
  */
