@@ -1,6 +1,7 @@
 package org.eagle.admin.sys.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eagle.admin.sys.dao.ResourceMapper;
 import org.eagle.admin.sys.entity.SysResource;
@@ -25,6 +26,11 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
 	@Override
 	public List<SysResource> listUrlAndPermission() {
 		return resourceMapper.listUrlAndPermission();
+	}
+
+	@Override
+	public Set<String> findPermsByUserId(Integer userId) {
+		return resourceMapper.findPermsByUserId(userId);
 	}
 
 }

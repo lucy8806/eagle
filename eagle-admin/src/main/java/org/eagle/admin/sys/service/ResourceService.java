@@ -1,6 +1,7 @@
 package org.eagle.admin.sys.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eagle.admin.sys.entity.SysResource;
 import org.eagle.core.mybatis.service.BaseService;
@@ -15,4 +16,5 @@ import org.eagle.core.mybatis.service.BaseService;
 public interface ResourceService extends BaseService<SysResource> {
 
 	List<SysResource> listUrlAndPermission();
+	Set<String> findPermsByUserId(Integer userId);
 }

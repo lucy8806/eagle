@@ -1,6 +1,7 @@
 package org.eagle.admin.sys.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eagle.admin.sys.entity.SysResource;
 import org.eagle.core.mybatis.mapper.BaseMapper;
@@ -14,4 +15,5 @@ import org.eagle.core.mybatis.mapper.BaseMapper;
  */
 public interface ResourceMapper extends BaseMapper<SysResource> {
 	List<SysResource> listUrlAndPermission();
+	Set<String> findPermsByUserId(Integer userId);
 }
