@@ -4,13 +4,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.eagle.admin.sys.entity.SysResource;
 import org.eagle.admin.sys.entity.SysUser;
 import org.eagle.admin.sys.service.ResourceService;
+import org.eagle.admin.sys.service.UserService;
+import org.eagle.admin.sys.shiro.ShiroRealm;
 import org.eagle.admin.sys.shiro.service.ShiroService;
 import org.eagle.core.context.SpringContextHolder;
 import org.slf4j.Logger;
@@ -18,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.hutool.core.util.StrUtil;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @ClassName: ShiroServiceImpl.java
@@ -26,12 +34,16 @@ import cn.hutool.core.util.StrUtil;
  * @Date 2019年5月8日 下午9:21:19
  * @Version 1.0
  */
+@Service
 public class ShiroServiceImpl implements ShiroService {
 
 	private static final Logger log = LoggerFactory.getLogger(ShiroServiceImpl.class);
 
 	@Autowired
 	private ResourceService resourceService;
+
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public Map<String, String> loadFilterChainDefinitions() {
@@ -126,14 +138,26 @@ public class ShiroServiceImpl implements ShiroService {
 
 	@Override
 	public void reloadAuthorizingByUserId(SysUser user) {
-		// TODO Auto-generated method stub
-
+		RealmSecurityManager realmSecurityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+		ShiroRealm shiroReam = (ShiroRealm) realmSecurityManager.getRealms().iterator().next();
+		Subject subject = SecurityUtils.getSubject();
+		String realmName = subject.getPrincipals().getRealmNames().iterator().next();
+		SimplePrincipalCollection simplePrincipalCollection = new SimplePrincipalCollection(user, realmName);
+		subject.runAs(simplePrincipalCollection);
+		shiroReam.getAuthorizationCache().remove(subject.getPrincipals());
+		subject.releaseRunAs();
+		log.info("[以下用户权限更新成功！]-[{}]", user.getUsername());
 	}
 
 	@Override
 	public void reloadAuthorizingByRoleId(Integer roleId) {
-		// TODO Auto-generated method stub
-
+		List<SysUser> userList = userService.listUsersByRoleId(roleId);
+		if (CollectionUtils.isEmpty(userList)) {
+			return;
+		}
+		for (SysUser user : userList) {
+			reloadAuthorizingByUserId(user);
+		}
 	}
 
 }

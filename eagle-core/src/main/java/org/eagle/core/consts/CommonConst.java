@@ -14,4 +14,6 @@ public class CommonConst {
     public static final int DEFAULT_SUCCESS_CODE = 200;
     /** session key */
     public static final String USER_SESSION_KEY = "user_session_key";
+    /** uuid盐 */
+    public static final String ZYD_SECURITY_KEY = "929123f8f17944e8b0a531045453e1f1";
 }

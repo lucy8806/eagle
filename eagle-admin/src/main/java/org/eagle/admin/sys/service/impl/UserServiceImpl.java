@@ -40,4 +40,9 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 	public SysUser selectUserByName(String userName) {
 		return userMapper.selectUserByName(userName);
 	}
+
+	@Override
+	public void updateUserLastLoginInfo(SysUser sysUser) {
+		userMapper.updateLastLoginTime(sysUser);
+	}
 }

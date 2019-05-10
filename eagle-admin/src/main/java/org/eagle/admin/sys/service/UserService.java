@@ -28,4 +28,6 @@ public interface UserService extends BaseService<SysUser> {
 	 * @return
 	 */
 	SysUser selectUserByName(String userName);
+
+	void updateUserLastLoginInfo(SysUser sysUser);
 }

@@ -18,9 +18,9 @@ spring:
     mode: LEGACYHTML5
   datasource:
       driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://192.168.1.105:3306/eagle?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-      username: root
-      password: root123
+      url: jdbc:mysql://10.31.1.105:3307/eagle?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: szqbdev
+      password: szqb@dev
       type: com.alibaba.druid.pool.DruidDataSource
       initial-size: 1
       minIdle: 3
@@ -28,7 +28,21 @@ spring:
       maxWait: 60000
       filters: stat,wall,slf4j
   # Redis
- 
+  redis:
+    database: 12
+    host: 10.31.1.128
+    port: 7000
+    #密码默认为空，注释即可，要添加密码，去掉注释添加就行
+    password: LLOOGG
+    pool: #star
+      maxActive: 8
+      maxWait: -1
+      maxIdle: 8
+      minIdle: 0 #end
+    # 连接超时时间（毫秒）
+    timeout:  3000
+    # 默认的数据过期时间，主要用于shiro权限管理
+    expire: 2592000
   profiles:
     active: dev
   application:

@@ -14,4 +14,5 @@ public interface UserMapper extends BaseMapper<SysUser> {
 	List<SysUser> findPageByCondition(UserReqVo vo);
 	List<SysUser> listUsersByRoleId(Integer roleId);
 	SysUser selectUserByName(String userName);
+	void updateLastLoginTime(SysUser sysUser);
 }
