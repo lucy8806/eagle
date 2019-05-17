@@ -132,3 +132,14 @@ INSERT INTO `sys_role_resource` VALUES ('262', '1', '1017');
 INSERT INTO `sys_role_resource` VALUES ('263', '1', '4');
 INSERT INTO `sys_role_resource` VALUES ('264', '1', '106');
 INSERT INTO `sys_role_resource` VALUES ('265', '1', '107');
+
+CREATE TABLE `sys_dept` (
+  `id` int(11) NOT NULL COMMENT '编号，主键',
+  `dept_id` varchar(20) DEFAULT NULL COMMENT '扩展部门id',
+  `parent_id` int(11) DEFAULT NULL COMMENT '上级部门id',
+  `dept_name` varchar(255) DEFAULT NULL COMMENT '部门名称',
+  `order_num` int(11) DEFAULT NULL COMMENT '排序',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门表';
