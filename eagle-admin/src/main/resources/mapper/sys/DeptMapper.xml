@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.eagle.admin.sys.dao.DeptMapper">
+
+    <resultMap id="deptMap" type="org.eagle.admin.sys.entity.SysDept">
+        <id property="id" column="id"></id>
+        <result property="deptId" column="dept_id"></result>
+        <result property="parentId" column="parent_id"></result>
+        <result property="deptName" column="dept_name"></result>
+        <result property="orderNum" column="order_num"></result>
+        <result property="createtime" column="create_time"></result>
+        <result property="updatetime" column="update_time"></result>
+    </resultMap>
+
+    <sql id="deptSql">
+        select
+            sd.id,
+            sd.dept_id,
+            sd.parent_id,
+            sd.dept_name,
+            sd.order_num,
+            sd.create_time,
+            sd.update_time
+            from sys_dept sd
+    </sql>
+    
+    <select id="findPageByCond" parameterType="org.eagle.admin.sys.vo.DeptReqVo" resultMap="deptMap">
+        <include refid="deptSql" />
+        <where>
+            <if test="deptName != '' and deptName != null">
+                sd.dept_name = #{deptName}
+            </if>
+        </where>
+    </select>
+
+</mapper>

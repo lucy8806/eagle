@@ -9,11 +9,10 @@ import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
-import org.crazycake.shiro.RedisSessionDAO;
+import org.crazycake.shiro.*;
 import org.eagle.admin.sys.shiro.ShiroRealm;
 import org.eagle.admin.sys.shiro.credentials.RetryLimitCredentialsMatcher;
+import org.eagle.admin.sys.shiro.filter.JwtFilter;
 import org.eagle.admin.sys.shiro.filter.KickoutSessionControlFilter;
 import org.eagle.admin.sys.shiro.service.ShiroService;
 import org.eagle.core.properties.RedisProperties;
@@ -81,7 +80,7 @@ public class ShiroConfig {
         //hashedCredentialsMatcher使用HashedCredentialsMatcher
         //这里简洁可以使用hashedCredentialsMatcher
         //hopeShiroReam.setCredentialsMatcher(hashedCredentialsMatcher());
-        shiroReam.setCredentialsMatcher(credentialsMatcher());
+        //shiroReam.setCredentialsMatcher(credentialsMatcher());
         return shiroReam;
     }
 
@@ -136,8 +135,14 @@ public class ShiroConfig {
      *
      * @return
      */
-    public RedisManager redisManager() {
+    public IRedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
+
+        //集群配置
+        //RedisClusterManager redisClusterManager = new RedisClusterManager();
+        //redisClusterManager.setHost(redisProperties.getHost());
+        //redisClusterManager.setPassword(redisProperties.getPassword());
+
         //配置地址，端口
         redisManager.setHost(redisProperties.getHost());
         redisManager.setPort(redisProperties.getPort());
@@ -149,6 +154,7 @@ public class ShiroConfig {
         /*redisManager.setExpire(redisProperties.getExpire());*/
         //配置密码
         redisManager.setPassword(redisProperties.getPassword());
+
         return redisManager;
     }
 
@@ -195,18 +201,29 @@ public class ShiroConfig {
         //设置securityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        //shiroFilterFactoryBean.setLoginUrl("/login");
         //登陆成功跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        //shiroFilterFactoryBean.setSuccessUrl("/index");
         //未授权的界面
-        shiroFilterFactoryBean.setUnauthorizedUrl("/error1");
+        //shiroFilterFactoryBean.setUnauthorizedUrl("/error1");
         //自定义拦截器
         Map<String, Filter> filterMap = new LinkedHashMap<String, Filter>();
         //限制同一个账号同时在线的个数
         filterMap.put("kickout", kickoutSessionControlFilter());
+
+        //在 hiro过滤器链上加入JwtFilter
+        filterMap.put("jwt", new JwtFilter());
+
         shiroFilterFactoryBean.setFilters(filterMap);
         //配置数据库中的resource
-        Map<String, String> filterChainDefinitionMap = shiroService.loadFilterChainDefinitions();
+       // Map<String, String> filterChainDefinitionMap = shiroService.loadFilterChainDefinitions();
+
+        LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put("/kickout", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
+        // 所有请求都要经过 jwt过滤器
+        filterChainDefinitionMap.put("/**", "jwt");
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

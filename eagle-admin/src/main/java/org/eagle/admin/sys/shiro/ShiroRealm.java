@@ -1,6 +1,7 @@
 package org.eagle.admin.sys.shiro;
 
 import cn.hutool.core.util.ObjectUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
@@ -18,11 +19,17 @@ import org.eagle.admin.sys.entity.SysUser;
 import org.eagle.admin.sys.service.ResourceService;
 import org.eagle.admin.sys.service.RoleService;
 import org.eagle.admin.sys.service.UserService;
+import org.eagle.admin.sys.shiro.jwt.JwtToken;
+import org.eagle.core.consts.CommonConst;
 import org.eagle.core.enums.SysUserStatusEnum;
+import org.eagle.core.utils.EagleUtil;
+import org.eagle.core.utils.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -48,6 +55,14 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private RedisSessionDAO redisSessionDAO;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JwtToken;
+    }
+
     /**
      * 給当前登录的用户授权
      * @param principalCollection
@@ -67,6 +82,9 @@ public class ShiroRealm extends AuthorizingRealm {
 
         //根据用户id获取角色，资源
         SysUser sysUser = (SysUser) principalCollection.getPrimaryPrincipal();
+        //String token = principalCollection.toString();
+        //String userName = JwtUtil.getUsername(token);
+        //SysUser sysUser = userService.selectUserByName(userName);
 
         roles = roleService.findRoleByUserId(sysUser.getId());
         resources = resourceService.findPermsByUserId(sysUser.getId());
@@ -87,25 +105,48 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         //获取用户账号 此处有坑，需谨慎
-        UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
+        //UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
 
-        String username = upToken.getUsername();
+        // 这里的token是从 JwtFilter 的 executeLogin 方法传递过来的，已经经过了解密
+        String token = (String) authenticationToken.getCredentials();
 
+        // 获取redis中存储的token
+        HttpServletRequest request = EagleUtil.getHttpServletRequest();
+        String ip = EagleUtil.getIpAddr(request);
+        String encryptToken = EagleUtil.encryptToken(token);
+        String encryptTokenInRedis = null;
+        try {
+            encryptTokenInRedis = (String)redisTemplate.opsForValue().get(CommonConst.TOKEN_CACHE_PREFIX + encryptToken + "." + ip);
+        } catch (Exception ignore) {
+        }
+
+        //校验token
+        if(StringUtils.isBlank(encryptTokenInRedis)){
+            throw new AuthenticationException("token已过期");
+        }
+        String username = JwtUtil.getUsername(token);
+        if(StringUtils.isBlank(username)){
+            throw new AuthenticationException("token校验不通过");
+        }
+        //根据用户名查询用户信息
         SysUser sysuser = userService.selectUserByName(username);
-
         if (ObjectUtil.isNull(sysuser)) {
             throw new UnknownAccountException("帐号不存在！");
+        }
+        if(!JwtUtil.verify(token, username, sysuser.getPassword())){
+            throw new AuthenticationException("token校验不通过");
         }
         if (SysUserStatusEnum.DISABLE.getCode().equals(sysuser.getStatus())) {
             throw new LockedAccountException("账号锁定，禁止登录系统！");
         }
-        //如果认证报错了 https://blog.csdn.net/tom9238/article/details/79711651 推荐看看这篇文章
-        return new SimpleAuthenticationInfo(
+
+        return new SimpleAuthenticationInfo(token, token, "eagle_shiro_realm");
+        /*return new SimpleAuthenticationInfo(
                 sysuser,
                 sysuser.getPassword(),
                 ByteSource.Util.bytes(username),
                 getName()
-        );
+        );*/
     }
 
     /***

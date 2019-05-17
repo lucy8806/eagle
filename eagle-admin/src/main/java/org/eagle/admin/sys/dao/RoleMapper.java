@@ -1,5 +1,6 @@
 package org.eagle.admin.sys.dao;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -16,5 +17,5 @@ public interface RoleMapper extends BaseMapper<SysRole> {
      * @param userId 用户id
      * @return set
      */
-    Set<String> findRoleByUserId(Integer userId);
+    List<SysRole> findRoleByUserId(Integer userId);
 }

@@ -16,4 +16,11 @@ public class CommonConst {
     public static final String USER_SESSION_KEY = "user_session_key";
     /** uuid盐 */
     public static final String ZYD_SECURITY_KEY = "929123f8f17944e8b0a531045453e1f1";
+
+    /** token缓存前缀 */
+    public static final String TOKEN_CACHE_PREFIX = "eagle.cache.token.";
+
+    /** 存储在线用户的 zset前缀 */
+    public static final String ACTIVE_USERS_ZSET_PREFIX = "eagle.user.active";
+
 }

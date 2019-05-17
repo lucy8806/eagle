@@ -1,6 +1,7 @@
 package org.eagle.core.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,8 @@ public class DateUtils {
 	public final static String DATE_PATTERN = "yyyy-MM-dd";
 	/** 时间格式(yyyy-MM-dd HH:mm:ss) */
 	public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	/** 时间格式（yyyyMMddHHmmss） */
+	public static final String FULL_TIME_PATTERN = "yyyyMMddHHmmss";
 
 	/**
 	 * 日期格式化 日期格式为：yyyy-MM-dd
@@ -47,6 +50,15 @@ public class DateUtils {
 			return df.format(date);
 		}
 		return null;
+	}
+
+	public static  String format(LocalDateTime localDateTime){
+		return format(localDateTime, FULL_TIME_PATTERN);
+	}
+
+	public static String format(LocalDateTime localDateTime, String pattern){
+		java.time.format.DateTimeFormatter dateTimeFormatter = java.time.format.DateTimeFormatter.ofPattern(pattern);
+		return localDateTime.format(dateTimeFormatter);
 	}
 
 	/**

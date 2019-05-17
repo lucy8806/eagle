@@ -20,4 +20,5 @@ import org.springframework.stereotype.Repository;
 public interface ResourceMapper extends BaseMapper<SysResource> {
 	List<SysResource> listUrlAndPermission();
 	Set<String> findPermsByUserId(Integer userId);
+	List<SysResource> findResourceByUserId(Integer userId);
 }

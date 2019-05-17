@@ -1,9 +1,11 @@
 package org.eagle.admin.sys.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.eagle.admin.sys.entity.SysResource;
+import org.eagle.core.model.router.VueRouter;
 import org.eagle.core.mybatis.service.BaseService;
 
 /**
@@ -16,5 +18,13 @@ import org.eagle.core.mybatis.service.BaseService;
 public interface ResourceService extends BaseService<SysResource> {
 
 	List<SysResource> listUrlAndPermission();
+
 	Set<String> findPermsByUserId(Integer userId);
+
+	/**
+	 * 根据用户Id构建Vue路由
+	 * @param userId
+	 * @return
+	 */
+	ArrayList<VueRouter<SysResource>> getUserRouters(Integer userId);
 }

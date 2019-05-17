@@ -41,6 +41,10 @@ public class ResultUtil {
         return new ResponseVo<>(code, message, data);
     }
 
+    public static ResponseVo vo(int code, Object data) {
+        return new ResponseVo<>(code, data);
+    }
+
     /**
      * error
      **/
@@ -61,6 +65,10 @@ public class ResultUtil {
      **/
     public static ResponseVo success(String message, Object data) {
         return vo(CommonConst.DEFAULT_SUCCESS_CODE, message, data);
+    }
+
+    public static ResponseVo success(Object data) {
+        return vo(CommonConst.DEFAULT_SUCCESS_CODE, data);
     }
 
     public static ResponseVo success(String message) {

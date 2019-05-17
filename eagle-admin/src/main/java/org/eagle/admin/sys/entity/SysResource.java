@@ -44,6 +44,10 @@ public class SysResource extends BaseEntity {
 	 **/
 	@ApiModelProperty(value = "权限访问路径", name = "url")
 	private String url;
+
+	@ApiModelProperty(value = "对应路由组件component", name = "component")
+	private String component;
+
 	/**
 	 * 权限标识
 	 **/

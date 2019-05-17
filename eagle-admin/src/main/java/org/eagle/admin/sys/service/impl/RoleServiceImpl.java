@@ -1,7 +1,10 @@
 package org.eagle.admin.sys.service.impl;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.eagle.admin.sys.dao.RoleMapper;
 import org.eagle.admin.sys.entity.SysRole;
 import org.eagle.admin.sys.service.RoleService;
 import org.eagle.core.mybatis.service.impl.BaseServiceImpl;
@@ -19,11 +22,12 @@ import org.springframework.stereotype.Service;
 public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleService {
 
 	@Autowired
-	private RoleService roleService;
+	private RoleMapper roleMapper;
 
 	@Override
 	public Set<String> findRoleByUserId(Integer userId) {
-		return roleService.findRoleByUserId(userId);
+		List<SysRole> roleList = roleMapper.findRoleByUserId(userId);
+		return roleList.stream().map(SysRole::getRole).collect(Collectors.toSet());
 	}
 
 }

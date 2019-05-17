@@ -22,6 +22,11 @@ public class ResponseVo<T> {
         this.data = data;
     }
 
+    public ResponseVo(Integer status, T data) {
+        this.status = status;
+        this.data = data;
+    }
+
     public ResponseVo(ResponseStatusEnum status, T data) {
         this(status.getCode(), status.getMessage(), data);
     }
