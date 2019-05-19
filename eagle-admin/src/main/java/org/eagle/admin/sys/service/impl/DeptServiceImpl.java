@@ -12,10 +12,7 @@ import org.eagle.core.utils.TreeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName: DeptServiceImpl
@@ -50,10 +47,15 @@ public class DeptServiceImpl extends BaseServiceImpl<SysDept> implements DeptSer
         return result;
     }
 
+    @Override
+    public void deleteDepts(String[] deptIds) {
+        Arrays.stream(deptIds).forEach(deptId -> deptMapper.deleteChildDepts(deptId));
+    }
+
     private void buildTrees(List<Tree<SysDept>> trees, List<SysDept> depts) {
         depts.forEach(dept -> {
             Tree<SysDept> tree = new Tree<>();
-            tree.setId(dept.getDeptId().toString());
+            tree.setId(dept.getId().toString());
             tree.setKey(tree.getId());
             tree.setParentId(dept.getParentId().toString());
             tree.setText(dept.getDeptName());

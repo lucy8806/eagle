@@ -29,9 +29,21 @@
         <include refid="deptSql" />
         <where>
             <if test="deptName != '' and deptName != null">
-                sd.dept_name = #{deptName}
+                sd.dept_name like "%"#{deptName}"%"
+            </if>
+            <if test="createTimeFrom != null and createTimeFrom != ''">
+                and create_time &gt;= #{createTimeFrom}
+            </if>
+            <if test="createTimeTo != null and createTimeTo != ''">
+                and create_time &lt; #{createTimeTo}
             </if>
         </where>
     </select>
+
+    <delete id="deleteChildDepts" parameterType="java.lang.String">
+        DELETE
+        FROM sys_dept
+        WHERE id IN (SELECT t.id FROM (SELECT id FROM sys_dept WHERE FIND_IN_SET( id, findDeptChildren ( #{rootDeptId} ) ) > 0) t )
+    </delete>
 
 </mapper>

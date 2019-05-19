@@ -132,6 +132,10 @@ INSERT INTO `sys_role_resource` VALUES ('262', '1', '1017');
 INSERT INTO `sys_role_resource` VALUES ('263', '1', '4');
 INSERT INTO `sys_role_resource` VALUES ('264', '1', '106');
 INSERT INTO `sys_role_resource` VALUES ('265', '1', '107');
+INSERT INTO sys_role_resource VALUES(267, 1, 10801);
+INSERT INTO sys_role_resource VALUES(268, 1, 10802);
+INSERT INTO sys_role_resource VALUES(269, 1, 10803);
+INSERT INTO sys_role_resource VALUES(270, 1, 10804);
 
 CREATE TABLE `sys_dept` (
   `id` int(11) NOT NULL COMMENT '编号，主键',
@@ -142,4 +146,22 @@ CREATE TABLE `sys_dept` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门表';
+)COMMENT='部门表';
+
+-- ----------------------------
+-- Function structure for findDeptChildren
+-- ----------------------------
+DROP FUNCTION IF EXISTS `findDeptChildren`;
+CREATE FUNCTION `findDeptChildren`(rootId INT) RETURNS varchar(4000) CHARSET utf8
+BEGIN
+		DECLARE sTemp VARCHAR(4000);
+    DECLARE sTempChd VARCHAR(4000);
+    SET sTemp = '$';
+    SET sTempChd = CAST(rootId as CHAR);
+    WHILE sTempChd is not null DO
+    SET sTemp = CONCAT(sTemp,',',sTempChd);
+    SELECT GROUP_CONCAT(id) INTO sTempChd FROM sys_dept
+    WHERE FIND_IN_SET(parent_id,sTempChd)>0;
+END WHILE;
+RETURN sTemp;
+END;

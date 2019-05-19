@@ -19,4 +19,11 @@ import java.util.List;
 @Repository
 public interface DeptMapper extends BaseMapper<SysDept> {
      List<SysDept> findPageByCond(DeptReqVo vo);
+
+     /**
+      * 根据父部门id删除所有子部门
+      * @param rootDeptId
+      * @return
+      */
+     int deleteChildDepts(String rootDeptId);
 }

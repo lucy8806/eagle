@@ -10,4 +10,5 @@ import java.util.Map;
 public interface DeptService extends BaseService<SysDept> {
     PageInfo<SysDept> findPageByCond(DeptReqVo vo);
     Map<String, Object> findDepts(DeptReqVo vo);
+    void deleteDepts(String[] deptIds);
 }

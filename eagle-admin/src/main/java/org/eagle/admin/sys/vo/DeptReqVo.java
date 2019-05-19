@@ -16,4 +16,6 @@ import org.eagle.core.model.PageInfoVo;
 @EqualsAndHashCode(callSuper = false)
 public class DeptReqVo extends PageInfoVo {
     private String deptName;
+    private String createTimeFrom;
+    private String createTimeTo;
 }
