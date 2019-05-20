@@ -6,6 +6,7 @@ import org.eagle.admin.sys.service.UserService;
 import org.eagle.admin.sys.vo.UserReqVo;
 import org.eagle.core.model.PageResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value = "用户", description = "用户管理api", position = 30, produces = "http")
 @RestController
-@RequestMapping("/admin/sys/user")
+@RequestMapping("/sys/user")
 public class UserController {
 
 	@Autowired
@@ -31,12 +32,12 @@ public class UserController {
 	 * @param vo
 	 * @return
 	 */
-	@ApiOperation(value = "用户列表", notes = "用户列表，传入参数只需要pageNum和pageSize", produces = "application/json, application/xml", consumes = "application/json, application/xml", response = SysUser.class)
+	@ApiOperation(value = "用户列表", notes = "用户列表，传入参数只需要pageNum和pageSize", response = SysUser.class)
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "pageNum", value = "第几页", required = true, dataType = "String", paramType = "query"),
 			@ApiImplicitParam(name = "pageSize", value = "数据条数", required = true, dataType = "String", paramType = "query") })
-	@RequiresPermissions("user:list")
-	@PostMapping("/list")
+	//@RequiresPermissions("user:list")
+	@GetMapping("/list")
 	public PageResultVo list(UserReqVo vo) {
 		PageInfo<SysUser> pageInfo = userService.findPageByCondition(vo);
 		return new PageResultVo(pageInfo.getTotal(), pageInfo.getList());
