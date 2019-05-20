@@ -221,6 +221,14 @@ public class ShiroConfig {
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/kickout", "anon");
         filterChainDefinitionMap.put("/login", "anon");
+
+        //放行Swagger2页面
+        filterChainDefinitionMap.put("/swagger-ui.html","anon");
+        filterChainDefinitionMap.put("/swagger/**","anon");
+        filterChainDefinitionMap.put("/webjars/**", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**","anon");
+        filterChainDefinitionMap.put("/v2/**","anon");
+
         // 所有请求都要经过 jwt过滤器
         filterChainDefinitionMap.put("/**", "jwt");
 
