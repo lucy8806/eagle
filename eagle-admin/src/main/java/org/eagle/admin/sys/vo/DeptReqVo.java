@@ -1,5 +1,6 @@
 package org.eagle.admin.sys.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.eagle.admin.sys.entity.SysDept;
@@ -15,7 +16,10 @@ import org.eagle.core.model.PageInfoVo;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class DeptReqVo extends PageInfoVo {
+    @ApiModelProperty(value = "部门名称")
     private String deptName;
+    @ApiModelProperty(value = "创建开始日期")
     private String createTimeFrom;
+    @ApiModelProperty(value = "创建结束日期")
     private String createTimeTo;
 }
