@@ -1,6 +1,7 @@
 package org.eagle.admin.sys.entity;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.eagle.core.model.BaseEntity;
@@ -18,11 +19,15 @@ import org.eagle.core.model.BaseEntity;
 public class SysDept extends BaseEntity {
     private static final long serialVersionUID = 5940904302764973454L;
     /** 扩展部门id */
+    @ApiModelProperty(value = "扩展部门id")
     private String deptId;
     /** 上级部门id */
+    @ApiModelProperty(value = "上级部门id")
     private Integer parentId;
     /** 部门名称 */
+    @ApiModelProperty(value = "部门名称")
     private String deptName;
     /** 排序 */
+    @ApiModelProperty(value = "排序")
     private Integer orderNum;
 }
