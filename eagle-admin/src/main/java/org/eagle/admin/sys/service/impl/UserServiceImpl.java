@@ -1,12 +1,18 @@
 package org.eagle.admin.sys.service.impl;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import cn.hutool.core.util.RandomUtil;
 import org.eagle.admin.sys.dao.UserMapper;
+import org.eagle.admin.sys.dao.UserRoleMapper;
 import org.eagle.admin.sys.entity.SysUser;
+import org.eagle.admin.sys.entity.SysUserRole;
 import org.eagle.admin.sys.service.UserService;
 import org.eagle.admin.sys.vo.UserReqVo;
 import org.eagle.core.mybatis.service.impl.BaseServiceImpl;
+import org.eagle.core.utils.UsingAesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -19,6 +25,9 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 
 	@Autowired
 	private UserMapper userMapper;
+
+	@Autowired
+	private UserRoleMapper userRoleMapper;
 
 	@Override
 	public PageInfo<SysUser> findPageByCondition(UserReqVo vo) {
@@ -44,5 +53,31 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 	@Override
 	public void updateUserLastLoginInfo(SysUser sysUser) {
 		userMapper.updateLastLoginTime(sysUser);
+	}
+
+	@Override
+	public boolean insert(SysUser entity) {
+		entity.setUserId(RandomUtil.randomUUID().substring(0, 7));
+		try {
+			entity.setPassword(UsingAesUtil.encrypt(SysUser.DEFAULT_PASSWORD, entity.getUsername()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		entity.setCreatetime(new Date());
+		entity.setUpdatetime(new Date());
+
+		//保存用户数据
+		super.insert(entity);
+
+		//保存用户角色关系
+		String[] roleIds = entity.getRoleId().split(",");
+		Arrays.stream(roleIds).forEach(roleId -> {
+			SysUserRole userRole = new SysUserRole();
+			userRole.setUserId(String.valueOf(entity.getId()));
+			userRole.setRoleId(roleId);
+			userRoleMapper.insert(userRole);
+		});
+
+		return true;
 	}
 }

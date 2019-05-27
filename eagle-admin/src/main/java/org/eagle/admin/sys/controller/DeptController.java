@@ -54,7 +54,7 @@ public class DeptController {
     })
     @PostMapping("/add")
     public ResponseVo add(SysDept dept){
-        dept.setDeptId(RandomUtil.randomUUID().substring(0, 7).toString());
+        dept.setDeptId(RandomUtil.randomUUID().substring(0, 7));
         if(dept.getParentId() == null){
             dept.setParentId(0);
         }

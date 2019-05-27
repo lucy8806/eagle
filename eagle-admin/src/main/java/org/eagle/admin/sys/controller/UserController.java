@@ -1,22 +1,20 @@
 package org.eagle.admin.sys.controller;
 
+import cn.hutool.core.util.RandomUtil;
+import io.swagger.annotations.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.eagle.admin.sys.entity.SysUser;
 import org.eagle.admin.sys.service.UserService;
 import org.eagle.admin.sys.vo.UserReqVo;
 import org.eagle.core.model.PageResultVo;
+import org.eagle.core.model.ResponseVo;
+import org.eagle.core.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.pagehelper.PageInfo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import java.util.Date;
 
 @Api(value = "用户", description = "用户管理api", position = 30, produces = "http")
 @RestController
@@ -28,7 +26,7 @@ public class UserController {
 
 	/**
 	 * 查询用户
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
@@ -41,5 +39,43 @@ public class UserController {
 	public PageResultVo list(UserReqVo vo) {
 		PageInfo<SysUser> pageInfo = userService.findPageByCondition(vo);
 		return new PageResultVo(pageInfo.getTotal(), pageInfo.getList());
+	}
+
+	@ApiOperation(value = "新增用户", notes = "新增用户")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "操作成功"),
+			@ApiResponse(code = 500, message = "操作失败，返回错误原因"),
+	})
+	@PostMapping("/add")
+	public ResponseVo add(SysUser user){
+		if (userService.insert(user)){
+			return ResultUtil.success("新增用户成功！");
+		}else {
+			return ResultUtil.error("新增用户失败！");
+		}
+	}
+
+	@ApiOperation(value = "校验用户名是否存在", notes = "校验用户名是否存在")
+	@ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "query")
+	@GetMapping("/check/{userName}")
+	public ResponseVo checkUserName(@PathVariable String userName){
+		SysUser user = userService.selectUserByName(userName);
+		if (user == null)
+			return ResultUtil.success(true);
+		else
+			return ResultUtil.success(false);
+	}
+
+	@ApiOperation(value = "修改用户", notes = "修改用户")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "操作成功"),
+			@ApiResponse(code = 500, message = "操作失败，返回错误原因"),
+	})
+	@PutMapping("/update")
+	public ResponseVo update(SysUser user){
+		if(userService.updateSelectiveById(user))
+			return ResultUtil.success("修改用户成功！");
+		else
+			return  ResultUtil.error("修改用户失败！");
 	}
 }

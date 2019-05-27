@@ -8,6 +8,8 @@
         <result property="username" column="username"></result>
         <result property="password" column="password"></result>
         <result property="salt" column="salt"></result>
+        <result property="deptId" column="dept_id"></result>
+        <result property="deptName" column="deptName"></result>
         <result property="email" column="email"></result>
         <result property="phone" column="phone"></result>
         <result property="sex" column="sex"></result>
@@ -16,8 +18,10 @@
         <result property="createtime" column="create_time"></result>
         <result property="updatetime" column="update_time"></result>
         <result property="lastLoginTime" column="last_login_time"></result>
+        <result property="roleId" column="roleId"></result>
+        <result property="roleName" column="roleName"></result>
     </resultMap>
-    
+
     <sql id="userSql">
         select
             su.id,
@@ -35,10 +39,16 @@
             su.last_login_time
             from sys_user su
     </sql>
-    
+
     <select id="findPageByCondition" parameterType="org.eagle.admin.sys.vo.UserReqVo" resultMap="userMap">
-        <include refid="userSql"/>
-        where 1=1
+        SELECT
+          su.*,
+          sd.dept_name AS deptName,
+          (SELECT GROUP_CONCAT(sur.role_id) FROM sys_user_role sur WHERE sur.user_id = su.id) roleId,
+          (SELECT GROUP_CONCAT(sr.role) FROM sys_user_role sur, sys_role sr WHERE sur.role_id = sr.id AND sur.user_id = su.id) roleName
+        FROM sys_user su
+        LEFT JOIN sys_dept sd ON su.dept_id = sd.id
+        WHERE 1=1
     </select>
 
     <select id="listUsersByRoleId" parameterType="java.lang.Integer" resultMap="userMap">
@@ -46,8 +56,8 @@
             su.id,
             su.username
             from sys_user su
-            INNER JOIN sys_user_role sur on sur.userId=su.id
-            where 1=1 and sur.roleId=#{roleId}
+            INNER JOIN sys_user_role sur on sur.user_id=su.id
+            where 1=1 and sur.role_id=#{roleId}
     </select>
 
     <select id="selectUserByName" resultMap="userMap" parameterType="java.lang.String">

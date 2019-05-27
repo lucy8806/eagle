@@ -11,7 +11,7 @@
         <result property="createtime" column="create_time"/>
         <result property="updatetime" column="update_time"/>
     </resultMap>
-    
+
     <sql id="roleSql">
         select
             sr.id,
@@ -23,15 +23,15 @@
             sr.update_time
             from sys_role sr
     </sql>
-    
+
     <select id="findRoleByUserId" parameterType="java.lang.Integer" resultMap="roleMap">
         select
             r.id,
             r.role,
             r.description
             from sys_role r
-			LEFT JOIN sys_user_role ur on r.id = ur.roleId
-			where ur.userId=#{userId}
+			LEFT JOIN sys_user_role ur on r.id = ur.role_id
+			where ur.user_id=#{userId}
     </select>
 
 </mapper>
