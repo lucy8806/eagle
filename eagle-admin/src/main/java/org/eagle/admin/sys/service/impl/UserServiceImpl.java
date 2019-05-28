@@ -63,8 +63,6 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		entity.setCreatetime(new Date());
-		entity.setUpdatetime(new Date());
 
 		//保存用户数据
 		super.insert(entity);
@@ -79,5 +77,22 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 		});
 
 		return true;
+	}
+
+	@Override
+	public boolean updateSelectiveById(SysUser user) {
+		//更新用户角色关系, 先删除，后新增
+		String[] roleIds = user.getRoleId().split(",");
+		SysUserRole userRole = new SysUserRole();
+		userRole.setUserId(String.valueOf(user.getId()));
+		userRoleMapper.delete(userRole);
+		Arrays.stream(roleIds).forEach(roleId -> {
+			userRole.setId(null);
+			userRole.setRoleId(roleId);
+			userRoleMapper.insert(userRole);
+		});
+
+		//更新用户信息
+		return super.updateSelectiveById(user);
 	}
 }

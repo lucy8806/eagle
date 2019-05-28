@@ -1,8 +1,6 @@
 package org.eagle.admin.sys.service.impl;
 
-import org.eagle.admin.sys.entity.SysUserRole;
 import org.eagle.admin.sys.service.UserRoleService;
-import org.eagle.core.mybatis.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,5 +11,5 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
-public class UserRoleServiceImpl extends BaseServiceImpl<SysUserRole> implements UserRoleService {
+public class UserRoleServiceImpl implements UserRoleService {
 }

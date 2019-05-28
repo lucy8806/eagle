@@ -1,8 +1,10 @@
 package org.eagle.core.mybatis.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
+import org.eagle.core.model.BaseEntity;
 import org.eagle.core.mybatis.mapper.BaseMapper;
 import org.eagle.core.mybatis.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +15,13 @@ import tk.mybatis.mapper.entity.Example;
 
 /**
  * 抽象Service
- * 
+ *
  * @author lucy
  *
  * @param <T>
  */
 @Service
-public abstract class BaseServiceImpl<T> implements BaseService<T> {
+public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 
 	@Autowired
 	private BaseMapper<T> baseMapper;
@@ -27,6 +29,8 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean insert(T entity) {
+		entity.setCreatetime(new Date());
+		entity.setUpdatetime(new Date());
 		return baseMapper.insert(entity) > 0;
 	}
 
@@ -63,6 +67,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean updateSelectiveById(T entity) {
+		entity.setUpdatetime(new Date());
 		return baseMapper.updateByPrimaryKeySelective(entity) > 0;
 	}
 
