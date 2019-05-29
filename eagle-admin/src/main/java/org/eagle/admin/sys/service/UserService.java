@@ -30,4 +30,11 @@ public interface UserService extends BaseService<SysUser> {
 	SysUser selectUserByName(String userName);
 
 	void updateUserLastLoginInfo(SysUser sysUser);
+
+	/**
+	 * 批量删除用户
+	 * @param ids
+	 * @return
+	 */
+	boolean deleteBatchByIds(String[] ids);
 }

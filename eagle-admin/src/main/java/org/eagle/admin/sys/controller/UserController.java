@@ -78,4 +78,20 @@ public class UserController {
 		else
 			return  ResultUtil.error("修改用户失败！");
 	}
+
+	@ApiOperation(value = "删除用户", notes = "删除用户")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "userIds", value = "用户ID数组", required = true, dataType = "String[]", paramType = "query")
+	})
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "操作成功"),
+			@ApiResponse(code = 500, message = "操作失败，返回错误原因"),
+	})
+	@DeleteMapping("/delete/{userIds}")
+	public ResponseVo delete(@PathVariable String[] userIds){
+		if(userService.deleteBatchByIds(userIds))
+			return ResultUtil.success("删除用户成功！");
+		else
+			return ResultUtil.success("删除用户失败！");
+	}
 }

@@ -56,6 +56,14 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 	}
 
 	@Override
+	public boolean deleteBatchByIds(String[] ids) {
+		Arrays.stream(ids).forEach(id ->{
+			userMapper.deleteByPrimaryKey(Integer.valueOf(id));
+		});
+		return true;
+	}
+
+	@Override
 	public boolean insert(SysUser entity) {
 		entity.setUserId(RandomUtil.randomUUID().substring(0, 7));
 		try {
