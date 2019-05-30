@@ -51,7 +51,7 @@ public class SysResource extends BaseEntity {
 	/**
 	 * 权限标识
 	 **/
-	@ApiModelProperty(value = "装逼的id", name = "resourceId")
+	@ApiModelProperty(value = "权限标识", name = "permission")
 	private String permission;
 	/**
 	 * 父编号

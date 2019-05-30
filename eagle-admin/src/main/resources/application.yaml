@@ -18,9 +18,9 @@ spring:
     mode: LEGACYHTML5
   datasource:
       driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://10.31.1.105:3307/eagle?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-      username: szqbdev
-      password: szqb@dev
+      url: jdbc:mysql://192.168.1.105:3306/eagle?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: root
+      password: root123
       type: com.alibaba.druid.pool.DruidDataSource
       initial-size: 1
       minIdle: 3
@@ -30,7 +30,7 @@ spring:
   # Redis
   redis:
     database: 0
-    host: 127.0.0.1
+    host: 192.168.1.105
     #集群配置
     #host: 10.31.1.128:7000,10.31.1.128:7001,10.31.1.128:7002,10.31.1.128:7003,10.31.1.128:7004,10.31.1.128:7005
     port: 6379

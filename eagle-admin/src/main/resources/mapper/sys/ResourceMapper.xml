@@ -36,16 +36,21 @@
 			sr.update_time
 			from sys_resource sr
     </sql>
-    <select id="selectResourceList" parameterType="org.eagle.admin.sys.entity.SysResource" resultMap="resourceMap">
+
+    <select id="selectResourceList" parameterType="org.eagle.admin.sys.vo.ResourceReqVo" resultMap="resourceMap">
         <include refid="resourceSql"/>
         WHERE 1=1
         <if test="null != name and '' != name">
             and sr.name like concat('%', #{name}, '%')
         </if>
-        <if test="null != status and '' != status">
-            and sr.`status` = #{status}
+        <if test="createTimeFrom != null and createTimeFrom != ''">
+            and sr.create_time &gt;= #{createTimeFrom}
+        </if>
+        <if test="createTimeTo != null and createTimeTo != ''">
+            and sr.create_time &lt;= #{createTimeTo}
         </if>
     </select>
+
     <select id="selectAlls" resultMap="resourceMap">
         <include refid="resourceSql"/>
     </select>
@@ -97,4 +102,13 @@
             LEFT JOIN sys_resource sr2 ON sr1.id=sr2.parentId and sr2.status=1
             where sr1.id=#{id}
     </select>
+
+    <!-- 递归删除菜单，findMenuChildren为自定义的 MySQL函数，作用为根据当前 Id递归查找出其所有下级菜单或按钮-->
+    <delete id="deleteResources" parameterType="string">
+        DELETE
+        FROM
+            sys_resource
+        WHERE
+            id IN ( SELECT m.id FROM ( SELECT id FROM sys_resource WHERE FIND_IN_SET( id, findResourceChildren ( #{resourceId} ) ) > 0 ) m )
+    </delete>
 </mapper>
