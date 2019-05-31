@@ -86,4 +86,8 @@ public class SysUser extends BaseEntity {
 	private String roleId;
 	@Transient
 	private String roleName;
+
+	public Long getAuthCacheKey(){
+		return getId().longValue();
+	}
 }

@@ -140,7 +140,7 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new LockedAccountException("账号锁定，禁止登录系统！");
         }
 
-        return new SimpleAuthenticationInfo(token, token, "eagle_shiro_realm");
+        return new SimpleAuthenticationInfo(sysuser, token, "eagle_shiro_realm");
         /*return new SimpleAuthenticationInfo(
                 sysuser,
                 sysuser.getPassword(),

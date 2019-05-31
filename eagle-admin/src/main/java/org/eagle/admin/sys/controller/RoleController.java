@@ -2,6 +2,7 @@ package org.eagle.admin.sys.controller;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.eagle.admin.sys.entity.SysRole;
 import org.eagle.admin.sys.service.RoleService;
 import org.eagle.admin.sys.vo.RoleReqVo;
@@ -52,6 +53,7 @@ public class RoleController {
             @ApiResponse(code = 200, message = "操作成功"),
             @ApiResponse(code = 500, message = "操作失败，返回错误原因"),
     })
+    @RequiresPermissions("role:add")
     @PostMapping("/add")
     public ResponseVo add(SysRole role){
         if (roleService.insert(role)){
@@ -66,6 +68,7 @@ public class RoleController {
             @ApiResponse(code = 200, message = "操作成功"),
             @ApiResponse(code = 500, message = "操作失败，返回错误原因"),
     })
+    @RequiresPermissions("role:edit")
     @PutMapping("/update")
     public ResponseVo update(SysRole role){
         if (roleService.updateSelectiveById(role)){

@@ -55,7 +55,7 @@ public class ResourceController {
             @ApiResponse(code = 500, message = "操作失败，返回错误原因"),
     })
     @PostMapping("/add")
-    //@RequiresPermissions("resource:add")
+    @RequiresPermissions("resource:add")
     public ResponseVo add(SysResource resource){
         resource.setResourceId(RandomUtil.randomUUID().substring(0, 7));
         resource.setStatus(SysConstant.RESOURCE_STATUS_VALID);
@@ -80,6 +80,7 @@ public class ResourceController {
             @ApiResponse(code = 200, message = "操作成功"),
             @ApiResponse(code = 500, message = "操作失败，返回错误原因"),
     })
+    @RequiresPermissions("resource:edit")
     @PutMapping("/update")
     public ResponseVo update(SysResource resource){
         if(resourceService.updateSelectiveById(resource)){
@@ -97,6 +98,7 @@ public class ResourceController {
             @ApiResponse(code = 200, message = "操作成功"),
             @ApiResponse(code = 500, message = "操作失败，返回错误原因"),
     })
+    @RequiresPermissions("resource:delete")
     @DeleteMapping("/del/{resourceIds}")
     public ResponseVo delete(@PathVariable String resourceIds){
         String[] ids = resourceIds.split(",");

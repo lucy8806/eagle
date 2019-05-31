@@ -3,6 +3,7 @@ package org.eagle.admin.sys.controller;
 import cn.hutool.core.util.RandomUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.eagle.admin.sys.entity.SysDept;
 import org.eagle.admin.sys.service.DeptService;
 import org.eagle.admin.sys.vo.DeptReqVo;
@@ -52,6 +53,7 @@ public class DeptController {
             @ApiResponse(code = 200, message = "操作成功"),
             @ApiResponse(code = 500, message = "操作失败，返回错误原因"),
     })
+    @RequiresPermissions("dept:add")
     @PostMapping("/add")
     public ResponseVo add(SysDept dept){
         dept.setDeptId(RandomUtil.randomUUID().substring(0, 7));
@@ -75,6 +77,7 @@ public class DeptController {
             @ApiResponse(code = 200, message = "操作成功"),
             @ApiResponse(code = 500, message = "操作失败，返回错误原因"),
     })
+    @RequiresPermissions("dept:delete")
     @DeleteMapping("/del/{deptIds}")
     public ResponseVo delete(@PathVariable String deptIds){
         String[] ids = deptIds.split(",");
@@ -87,6 +90,7 @@ public class DeptController {
             @ApiResponse(code = 200, message = "操作成功"),
             @ApiResponse(code = 500, message = "操作失败，返回错误原因"),
     })
+    @RequiresPermissions("dept:update")
     @PutMapping("/update")
     public ResponseVo update(SysDept dept){
         dept.setUpdatetime(new Date());

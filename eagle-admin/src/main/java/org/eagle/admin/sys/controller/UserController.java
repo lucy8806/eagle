@@ -46,6 +46,7 @@ public class UserController {
 			@ApiResponse(code = 200, message = "操作成功"),
 			@ApiResponse(code = 500, message = "操作失败，返回错误原因"),
 	})
+	@RequiresPermissions("user:add")
 	@PostMapping("/add")
 	public ResponseVo add(SysUser user){
 		if (userService.insert(user)){
@@ -71,6 +72,7 @@ public class UserController {
 			@ApiResponse(code = 200, message = "操作成功"),
 			@ApiResponse(code = 500, message = "操作失败，返回错误原因"),
 	})
+	@RequiresPermissions("user:update")
 	@PutMapping("/update")
 	public ResponseVo update(SysUser user){
 		if(userService.updateSelectiveById(user))
@@ -87,6 +89,7 @@ public class UserController {
 			@ApiResponse(code = 200, message = "操作成功"),
 			@ApiResponse(code = 500, message = "操作失败，返回错误原因"),
 	})
+	@RequiresPermissions("user:delete")
 	@DeleteMapping("/delete/{userIds}")
 	public ResponseVo delete(@PathVariable String[] userIds){
 		if(userService.deleteBatchByIds(userIds))
