@@ -28,3 +28,7 @@
 
 # 系统预览
 ![](doc/img/1.jpg)
+![](doc/img/2.jpg)
+![](doc/img/3.jpg)
+### 切换另外一种主题：
+![](doc/img/4.jpg)
