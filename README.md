@@ -24,7 +24,7 @@
 | eagle-admin  | 系统层面的基础模块：用户管理、角色管理、资源管理、部门管理、数据字典等等。 |      
 | eagle-core  | 框架核心模块，提供工具类,通用Mappper, 通用Service,统一异常处理，分页逻辑封装等等。|    
 | eagle-sso | 单点登录-认证中心模块，未完成，待续...... |
-| eagle-generator | 未实现，待续...... |
+| eagle-generator | 代码自动生成模块，未实现，待续...... |
 
 # 系统预览
 ![](doc/img/1.jpg)
