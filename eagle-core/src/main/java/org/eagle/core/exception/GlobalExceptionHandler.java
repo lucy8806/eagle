@@ -1,6 +1,7 @@
 package org.eagle.core.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.eagle.core.consts.CommonConst;
 import org.eagle.core.model.ResponseVo;
 import org.eagle.core.utils.ResultUtil;
@@ -35,5 +36,12 @@ public class GlobalExceptionHandler {
     public ResponseVo handleEagleException(Exception e){
         log.error("系统错误：{}", e.getMessage());
         return ResultUtil.error(CommonConst.DEFAULT_ERROR_CODE, e.getMessage());
+    }
+
+    @ExceptionHandler(value = UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseVo handleUnAuthException(Exception e){
+        log.error("权限不足：{}", e.getMessage());
+        return ResultUtil.error(CommonConst.DEFAULT_ERROR_CODE, "没有权限");
     }
 }
