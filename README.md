@@ -1,5 +1,6 @@
 # eagle
-基于Vue、SpringBoot、Shiro、JWT等框架开发的前后端分离的基础框架平台，提供基础服务，拿来即用，为企业的业务需求开发保驾护航。
+基于Vue、SpringBoot、Shiro、JWT等框架开发的前后端分离的基础框架平台，提供基础服务，拿来即用，为企业的业务需求开发保驾护航。<br>
+前端代码git地址：https://github.com/lucy8806/ui
 
 # 技术栈
 ## 后端
