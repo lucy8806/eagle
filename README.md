@@ -11,3 +11,7 @@
 * Jedis 2.9.1
 * Swagger 2.8.0
 * MySQL5.7,Redis
+## 前端
+* [Vue 2.5.17](https://cn.vuejs.org/),[Vuex](https://vuex.vuejs.org/zh/),[Vue Router](https://router.vuejs.org/zh/)
+* [ant-design-vue](https://vue.ant.design/docs/vue/introduce-cn/)
+* [webpack](https://www.webpackjs.com/),[yarn](https://yarnpkg.com/zh-Hans/)
