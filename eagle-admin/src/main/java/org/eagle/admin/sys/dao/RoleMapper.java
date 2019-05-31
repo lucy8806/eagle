@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.eagle.admin.sys.entity.SysRole;
+import org.eagle.admin.sys.vo.RoleReqVo;
 import org.eagle.core.mybatis.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,6 @@ public interface RoleMapper extends BaseMapper<SysRole> {
      * @return set
      */
     List<SysRole> findRoleByUserId(Integer userId);
+
+    List<SysRole> findPageByCondition(RoleReqVo reqVo);
 }

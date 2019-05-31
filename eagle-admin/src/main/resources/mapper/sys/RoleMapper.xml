@@ -33,5 +33,20 @@
 			LEFT JOIN sys_user_role ur on r.id = ur.role_id
 			where ur.user_id=#{userId}
     </select>
+    
+    <select id="findPageByCondition" parameterType="org.eagle.admin.sys.vo.RoleReqVo" resultMap="roleMap">
+        <include refid="roleSql" />
+        <where>
+            <if test="roleName != null and roleName != ''">
+                sr.role like "%"#{roleName}"%"
+            </if>
+            <if test="createTimeFrom != null and createTimeFrom != ''">
+                and sr.create_time &gt;= #{createTimeFrom}
+            </if>
+            <if test="createTimeTo != null and createTimeTo != ''">
+                and sr.create_time &lt; #{createTimeTo}
+            </if>
+        </where>
+    </select>
 
 </mapper>

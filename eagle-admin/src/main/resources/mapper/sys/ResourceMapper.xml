@@ -65,8 +65,8 @@
         select
             DISTINCT r.permission
             from sys_resource r
-            LEFT JOIN sys_role_resource rr ON r.id=rr.resourceId
-            LEFT JOIN sys_user_role ur on rr.roleId = ur.role_id
+            LEFT JOIN sys_role_resource rr ON r.id=rr.resource_id
+            LEFT JOIN sys_user_role ur on rr.role_id = ur.role_id
             WHERE 1=1 AND ur.user_id=#{userId} and r.permission is not null and r.permission!='' and r.status=1
     </select>
 
@@ -74,8 +74,8 @@
         select
             DISTINCT r.*
             from sys_resource r
-            LEFT JOIN sys_role_resource rr ON r.id=rr.resourceId
-            LEFT JOIN sys_user_role ur on rr.roleId = ur.role_id
+            LEFT JOIN sys_role_resource rr ON r.id=rr.resource_id
+            LEFT JOIN sys_user_role ur on rr.role_id = ur.role_id
             WHERE 1=1 AND ur.user_id=#{userId} and r.permission is not null and r.permission!='' and r.status=1 and r.type != 2
     </select>
 
@@ -83,8 +83,8 @@
         select
 			CONCAT(sr.id,sr.permission) as permission
 			FROM sys_resource sr
-			LEFT JOIN sys_role_resource srr on sr.id = srr.resourceId
-			where 1=1 and srr.roleId =#{roleId}
+			LEFT JOIN sys_role_resource srr on sr.id = srr.resource_id
+			where 1=1 and srr.role_id =#{roleId}
 			ORDER BY sr.parentId,sr.priority
     </select>
     <select id="selectResourceById" parameterType="java.lang.Integer" resultMap="resourceMap">

@@ -19,7 +19,7 @@ public class UserConfig extends BaseEntity {
     public static final String DEFAULT_MULTIPAGE = "0";
     public static final String DEFAULT_FIX_SIDERBAR = "1";
     public static final String DEFAULT_FIX_HEADER = "1";
-    public static final String DEFAULT_COLOR = "rgb(66, 185, 131)";
+    public static final String DEFAULT_COLOR = "rgb(24, 144, 255)";
 
     /**
      * 用户 ID
