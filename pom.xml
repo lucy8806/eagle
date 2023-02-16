@@ -35,7 +35,7 @@
         <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
         <nekohtml.version>1.9.22</nekohtml.version>
         <commons.lang3.version>3.7</commons.lang3.version>
-        <hutool.all.version>4.1.7</hutool.all.version>
+        <hutool.all.version>5.8.12</hutool.all.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <springfox.swagger2.version>2.8.0</springfox.swagger2.version>
         <springfox.swagger.ui.version>2.8.0</springfox.swagger.ui.version>
